@@ -1,0 +1,245 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPERADMIN
+}
+
+enum Status {
+  active
+  inactive
+  suspended
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  email          String   @unique
+  password       String
+  username       String   @unique
+  firstName      String?
+  lastName       String?
+  phone          String?  @unique
+  status         Status   @default(active)
+  role           Role     @default(USER)
+  avatarUrl      String? // Cloudinary image URL
+  avatarPublicId String? // Cloudinary public_id for management
+  googleId       String?  @unique 
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  Conversation            Conversation[]            @relation("ConversationCreator")
+  ConversationParticipant ConversationParticipant[]
+  Message                 Message[]
+  MessageReadReceipt      MessageReadReceipt[]
+  Notification            Notification[]
+  UserSession             UserSession[]
+}
+
+model Worker {
+  id                 Int                 @id @default(autoincrement())
+  name               String
+  cin                String              @unique
+  phone              String?             @unique
+  email              String?             @unique
+  role               String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  assignments        Assignment[]
+  performanceRecords PerformanceRecord[]
+}
+
+model ProductionLine {
+  id                 Int                 @id @default(autoincrement())
+  name               String
+  description        String?
+  capacity           Int?
+  isActive           Boolean             @default(true)
+  targetOutput       Int?
+  location           String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  assignments        Assignment[]
+  performanceRecords PerformanceRecord[]
+}
+
+model Assignment {
+  id               Int            @id @default(autoincrement())
+  workerId         Int
+  productionLineId Int
+  position         String
+  date             DateTime
+  shift            String
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  worker           Worker         @relation(fields: [workerId], references: [id])
+  productionLine   ProductionLine @relation(fields: [productionLineId], references: [id])
+
+  @@index([productionLineId, date])
+  @@index([workerId, date])
+}
+
+model Product {
+  id                 Int                 @id @default(autoincrement())
+  name               String
+  code               String              @unique // SKU or product code
+  description        String?
+  category           String?
+  unitPrice          Float?
+  imageUrl           String? // Cloudinary image URL
+  imagePublicId      String? // Cloudinary public_id for management
+  isActive           Boolean             @default(true)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  performanceRecords PerformanceRecord[]
+}
+
+model PerformanceRecord {
+  id               Int            @id @default(autoincrement())
+  workerId         Int
+  productId        Int
+  productionLineId Int
+  date             DateTime
+  piecesMade       Int
+  shift            String?
+  timeTaken        Float
+  errorRate        Float
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  worker           Worker         @relation(fields: [workerId], references: [id])
+  product          Product        @relation(fields: [productId], references: [id])
+  productionLine   ProductionLine @relation(fields: [productionLineId], references: [id])
+
+  @@index([workerId, date])
+  @@index([productId, date])
+  @@index([productionLineId, date])
+}
+
+model Conversation {
+  id        Int      @id @default(autoincrement())
+  name      String? // For group chats
+  isGroup   Boolean  @default(false)
+  createdBy Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  creator      User?                     @relation("ConversationCreator", fields: [createdBy], references: [id])
+  participants ConversationParticipant[]
+  messages     Message[]
+
+  @@index([updatedAt])
+}
+
+model ConversationParticipant {
+  id             Int       @id @default(autoincrement())
+  conversationId Int
+  userId         Int
+  joinedAt       DateTime  @default(now())
+  lastReadAt     DateTime?
+  isActive       Boolean   @default(true)
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([conversationId, userId])
+  @@index([userId])
+}
+
+model Message {
+  id             Int         @id @default(autoincrement())
+  conversationId Int
+  senderId       Int
+  content        String
+  messageType    MessageType @default(TEXT)
+  isEdited       Boolean     @default(false)
+  isDeleted      Boolean     @default(false)
+  fileUrl        String?     // Cloudinary URL for files
+  fileName       String?     // Original filename
+  fileSize       Int?        // File size in bytes
+  filePublicId   String?     // Cloudinary public_id for management
+
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  conversation Conversation         @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User                 @relation(fields: [senderId], references: [id])
+  readReceipts MessageReadReceipt[]
+
+  @@index([conversationId, createdAt])
+  @@index([senderId])
+}
+
+model MessageReadReceipt {
+  id        Int      @id @default(autoincrement())
+  messageId Int
+  userId    Int
+  readAt    DateTime @default(now())
+
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, userId])
+}
+
+model Notification {
+  id        Int              @id @default(autoincrement())
+  userId    Int
+  type      NotificationType
+  title     String
+  content   String
+  data      Json? // Additional data (like messageId, conversationId, etc.)
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  FILE
+  VIDEO 
+  SYSTEM
+}
+
+enum NotificationType {
+  NEW_MESSAGE
+  MENTION
+  SYSTEM
+  PERFORMANCE_ALERT
+}
+
+model UserSession {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  refreshToken String   @unique
+  deviceInfo   String?  // User-Agent or device identifier
+  ipAddress    String?  // IP address for security tracking
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  expiresAt    DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([refreshToken])
+  @@index([expiresAt])
+}

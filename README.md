@@ -81,32 +81,28 @@ textile-management-system/
     CLOUDINARY_API_SECRET=your_api_secret
     ```
 3. Run Prisma
-
-npx prisma generate
-npx prisma migrate dev --name init
-
-
-Start Server
-
-npm run dev
-
+    ```bash
+    npx prisma generate
+    npx prisma migrate dev --name init
+    ```
+4. Start Server
+    ```bash
+    npm run dev
+    ```
 ### ✅ Frontend Setup
-
-Install dependencies
-
-cd frontend
-npm install
-
-
-Set up .env
-
-VITE_API_URL=http://localhost:5000
-
-
-Run Frontend Dev Server
-
-npm run dev
-
+1. Install dependencies
+    ```bash
+    cd frontend
+    npm install
+    ```
+2. Set up .env
+    ```bash
+    VITE_API_URL=http://localhost:5000
+    ```
+3. Run Frontend Dev Server
+    ```bash
+    npm run dev
+    ```
 ## 🌐 Main API Endpoints
 Endpoint	Description
 /api/auth	Auth flows (login, register, refresh)
@@ -131,15 +127,9 @@ UI Animations	Framer Motion
 Data Tables	TanStack Table
 Notifications	Sonner
 ## 📎 Links
-
-Frontend Source: /frontend
-
-Backend Source: /backend
-
+- Frontend Source: /frontend
+- Backend Source: /backend
 ## 🧪 Notes
-
-All features are modular and extensible.
-
-AI-driven analytics can be extended to predict productivity and downtime.
-
-Ensure CORS, authentication headers, and socket URLs match between frontend/backend.
+- All features are modular and extensible.
+- AI-driven analytics can be extended to predict productivity and downtime.
+- Ensure CORS, authentication headers, and socket URLs match between frontend/backend.

@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Worker" ALTER COLUMN "cin" SET DATA TYPE TEXT;

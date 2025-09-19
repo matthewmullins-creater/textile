@@ -82,4 +82,4 @@ This is the backend for a textile management system, built with Node.js, Express
    ```
 
 ###  Frontend
-See [`Textile Frontend`](https://github.com/Njahi98/textile-frontend) for frontend setup and API details.
+See [`Textile Frontend`](https://github.com/matthewmullins-creater/textile/tree/main/frontend) for frontend setup and API details.

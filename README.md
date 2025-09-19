@@ -45,20 +45,20 @@ DevOps	Prisma Migrations, Environment Configs, WebSocket-based real-time updates
 - Live search across data views
 
 ## 📁 Project Structure
-    ```
-    textile-management-system/
-    ├── backend/               # Express + Prisma + PostgreSQL API
-    │   └── src/
-    │       ├── routes/
-    │       ├── controllers/
-    │       └── prisma/
-    ├── frontend/              # React + Vite + Tailwind Admin Dashboard
-    │   └── src/
-    │       ├── components/
-    │       ├── pages/
-    │       └── hooks/
-    └── README.md              # You are here!
-    ```
+```
+textile-management-system/
+├── backend/               # Express + Prisma + PostgreSQL API
+│   └── src/
+│       ├── routes/
+│       ├── controllers/
+│       └── prisma/
+├── frontend/              # React + Vite + Tailwind Admin Dashboard
+│   └── src/
+│       ├── components/
+│       ├── pages/
+│       └── hooks/
+└── README.md              # You are here!
+```
 
 ## 🚀 Getting Started
 ### ✅ Backend Setup
@@ -106,30 +106,30 @@ DevOps	Prisma Migrations, Environment Configs, WebSocket-based real-time updates
     npm run dev
     ```
 ## 🌐 Main API Endpoints
-    | Endpoint                 | Description                                   |
-    |--------------------------|-----------------------------------------------|
-    | `/api/auth`              | Auth flows (login, register, refresh)         |
-    | `/api/users`             | User CRUD and status                          |
-    | `/api/workers`           | Worker CRUD, CSV import/export                |
-    | `/api/production-lines`  | Line creation, capacity tracking              |
-    | `/api/assignments`       | Worker/shift assignment with conflict checks  |
-    | `/api/products`          | Product CRUD, image/category management       |
-    | `/api/performance`       | Track production performance metrics          |
-    | `/api/chat`              | Real-time chat, file upload, presence         |
-    | `/api/insights`          | AI reports and KPI dashboards                 |
-    | `/api/settings/account`  | Profile and password updates                  |
-    | `/api/notifications`     | In-dashboard notifications                    |
+| Endpoint                 | Description                                   |
+|--------------------------|-----------------------------------------------|
+| `/api/auth`              | Auth flows (login, register, refresh)         |
+| `/api/users`             | User CRUD and status                          |
+| `/api/workers`           | Worker CRUD, CSV import/export                |
+| `/api/production-lines`  | Line creation, capacity tracking              |
+| `/api/assignments`       | Worker/shift assignment with conflict checks  |
+| `/api/products`          | Product CRUD, image/category management       |
+| `/api/performance`       | Track production performance metrics          |
+| `/api/chat`              | Real-time chat, file upload, presence         |
+| `/api/insights`          | AI reports and KPI dashboards                 |
+| `/api/settings/account`  | Profile and password updates                  |
+| `/api/notifications`     | In-dashboard notifications                    |
 ## 📊 Frontend Highlights
-    | Area             | Tech Used               |
-    | ---------------- | ----------------------- |
-    | Styling          | Tailwind CSS, shadcn/ui |
-    | State Management | Zustand, SWR            |
-    | Forms            | React Hook Form + Zod   |
-    | Charts           | Recharts                |
-    | Realtime         | Socket.IO               |
-    | UI Animations    | Framer Motion           |
-    | Data Tables      | TanStack Table          |
-    | Notifications    | Sonner                  |
+| Area             | Tech Used               |
+| ---------------- | ----------------------- |
+| Styling          | Tailwind CSS, shadcn/ui |
+| State Management | Zustand, SWR            |
+| Forms            | React Hook Form + Zod   |
+| Charts           | Recharts                |
+| Realtime         | Socket.IO               |
+| UI Animations    | Framer Motion           |
+| Data Tables      | TanStack Table          |
+| Notifications    | Sonner                  |
 ## 📎 Links
 - Frontend Source: /frontend
 - Backend Source: /backend

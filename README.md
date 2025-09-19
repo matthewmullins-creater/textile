@@ -131,8 +131,8 @@ textile-management-system/
 | Data Tables      | TanStack Table          |
 | Notifications    | Sonner                  |
 ## 📎 Links
-- Frontend Source: /frontend
-- Backend Source: /backend
+- Frontend Source: [/frontend](https://github.com/matthewmullins-creater/textile/tree/main/frontend)
+- Backend Source: [/backend](https://github.com/matthewmullins-creater/textile/tree/main/backend)
 ## 🧪 Notes
 - All features are modular and extensible.
 - AI-driven analytics can be extended to predict productivity and downtime.

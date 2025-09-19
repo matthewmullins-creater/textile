@@ -95,4 +95,4 @@ A modern React-based frontend for textile manufacturing management, built with T
 
 ## Backend Integration
 
-This frontend connects to the [Textile Backend](https://github.com/Njahi98/textile-backend) for complete functionality including authentication, data management, and real-time features.
+This frontend connects to the [Textile Backend](https://github.com/matthewmullins-creater/textile/tree/main/backend) for complete functionality including authentication, data management, and real-time features.
